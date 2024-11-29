@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import InfoCard from "./InfoCard";
+import InfoItem from "./InfoItem";
+import FloatingButton from "./FloatingButton";
 
 export default function WeatherDashboard({ weatherData }) {
   const [showDetails, setShowDetails] = useState(false);
@@ -25,7 +28,7 @@ export default function WeatherDashboard({ weatherData }) {
           <img
             src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png`}
             alt="displayed weather icon"
-            className="mw-100 glowing"
+            className="mw-100 glowing floating"
             width="120"
             height="120"
           />
@@ -107,46 +110,3 @@ export default function WeatherDashboard({ weatherData }) {
     </div>
   );
 }
-
-const InfoCard = ({ title, children }) => {
-  return (
-    <div className="col-4">
-      <div
-        className="h-100 shadow-sm p-3 rounded-3 hover-float"
-        style={{ backgroundColor: "#FFFFFF10", border: "1px solid #FFFFFF20" }}
-      >
-        <div>
-          <h5 className="fw-bolder text-white mb-3 border-bottom border-white border-opacity-25 text-shadow">
-            {title}
-          </h5>
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const InfoItem = ({ icon, children }) => {
-  return (
-    <div className="info-item d-flex align-items-center mb-2 p-2 rounded-3 bg-white bg-opacity-10 hover-bg-opacity-20 will-transition">
-      <i
-        className={`${icon} me-3 text-center opacity-75`}
-        style={{ width: "20px" }}
-      ></i>
-      <span className="flex-grow-1">{children}</span>
-    </div>
-  );
-};
-
-const FloatingButton = ({ onClick, detailsHidden = true }) => {
-  return (
-    <button
-      className="rounded-pill px-4 py-2 bg-opacity-10 hover-bg-opacity-20 will-transition border-1 border-white border-opacity-25 text-white hover-float"
-      onClick={onClick}
-      style={{ backgroundColor: "#FFFFFF10" }}
-    >
-      <i className={`fas fa-chevron-${detailsHidden ? "up" : "down"} me-2`}></i>
-      {detailsHidden ? "Show Less" : "Show More Details"}
-    </button>
-  );
-};

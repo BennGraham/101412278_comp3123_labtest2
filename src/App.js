@@ -5,12 +5,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import WeatherDashboard from "./components/WeatherDashboard";
+import Search from "./components/Search";
 import "./App.css";
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [city, setCity] = useState("Toronto");
 
   const API_KEY = "40332e9667da45216701f2a8805ffad8";
 
@@ -18,15 +20,15 @@ function App() {
   // forecast api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}&units=metric
 
   useEffect(() => {
-    fetchWeatherData();
-  }, []);
+    fetchWeatherData(city);
+  }, [city]);
 
-  const fetchWeatherData = async () => {
+  const fetchWeatherData = async (city) => {
     setLoading(true);
     setError(null);
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=Toronto&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
       );
       setWeatherData(response.data);
     } catch (err) {
@@ -34,6 +36,10 @@ function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearch = (city) => {
+    setCity(city);
   };
 
   return (
@@ -51,6 +57,7 @@ function App() {
 
         {weatherData && !loading && (
           <>
+            <Search onSearch={handleSearch} />
             <h2 className="text-center mb-4">
               Weather in {weatherData.name}, {weatherData.sys.country}
             </h2>
